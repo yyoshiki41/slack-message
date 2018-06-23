@@ -1,10 +1,3 @@
-# slack-message
-
-♯♯♯ minimum ♯♯♯
-
-Post a message using slack incoming webhook.
-
-```go
 package main
 
 import (
@@ -14,13 +7,21 @@ import (
 )
 
 func main() {
+	f := slack.Field{
+		Title: "title",
+		Value: "this is a field.",
+	}
+	a := slack.Attachment{
+		Fields: []slack.Field{f},
+	}
 	p := slack.Payload{
 		Text:        "Hello, worlds.",
 		Channel:     "#general",
+		Attachments: []slack.Attachment{a},
 	}
-	err := slack.Post("https://hooks.slack.com/******", p)
+
+	err := slack.Post(slack.GetEnvWebhookURL(), p)
 	if err != nil {
 		fmt.Println(err)
 	}
 }
-```
